@@ -1,0 +1,12 @@
+<resources>
+    <string-array name="Categories">
+        <item></item>
+        <item>Education</item>
+        <item>Electronics</item>
+        <item>Clothing</item>
+        <item>Cars and Vehicles</item>
+        <item>Toys</item>
+
+    </string-array>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
+</resources>
