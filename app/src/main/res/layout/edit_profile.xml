@@ -28,18 +28,6 @@
         android:textColor="@color/black"
         android:textSize="20dp" />
 
-    <EditText
-        android:id="@+id/EditEmail"
-        android:layout_width="282dp"
-        android:layout_height="93dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="400dp"
-        android:ems="10"
-        android:hint="New email"
-        android:textColor="@color/black"
-        android:textSize="20dp" />
-
-
     <Button
         android:id="@+id/save_btn"
         android:layout_width="wrap_content"

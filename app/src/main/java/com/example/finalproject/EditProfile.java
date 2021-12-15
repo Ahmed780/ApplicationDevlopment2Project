@@ -40,17 +40,14 @@ public class EditProfile extends AppCompatActivity {
 
         Intent data = getIntent();
         String name = data.getStringExtra("Username");
-        String email = data.getStringExtra("Email");
         fAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         user = fAuth.getCurrentUser();
 
         profileName = findViewById(R.id.EditName);
-        profileEmail = findViewById(R.id.EditEmail);
         save_button = findViewById(R.id.save_btn);
         back = findViewById(R.id.editBack);
         profileName.setText(name);
-        profileEmail.setText(email);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +56,7 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        Log.d(TAG,"onCreate" + name  + " " + " "+ email);
+        Log.d(TAG,"onCreate" + name  + " ");
 
 
 
@@ -77,7 +74,6 @@ public class EditProfile extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         DocumentReference documentReference = firestore.collection("Users").document(user.getUid());
                         Map<String,Object> edit = new HashMap<>();
-                        edit.put("Email",email);
                         edit.put("Username",profileName.getText().toString());
                         documentReference.update(edit).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override

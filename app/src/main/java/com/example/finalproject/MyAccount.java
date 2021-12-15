@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -33,6 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyAccount extends AppCompatActivity {
 
@@ -42,7 +46,10 @@ public class MyAccount extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
     ImageView profileImage;
+//    CircleImageView profile;
+    private Uri Imageuri;
     StorageReference storageReference;
+    private CircleImageView profile;
 
 
     @Override
@@ -55,19 +62,19 @@ public class MyAccount extends AppCompatActivity {
         email = findViewById(R.id.accountEmail);
         fAuth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
-        profileImage = findViewById(R.id.profile_image);
+        profile = findViewById(R.id.profile_image);
         changeProfile = findViewById(R.id.edit_btn);
         map = findViewById(R.id.map);
         uid = fAuth.getCurrentUser().getUid();
         post = findViewById(R.id.post_btn);
         storageReference = FirebaseStorage.getInstance().getReference().child("profile picture");
 
-
-        profileImage.setOnClickListener(new View.OnClickListener() {
+        profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 choosePicture();
+//            Intent openGallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//            startActivityForResult(openGallery,1000);
             }
         });
 
@@ -77,7 +84,6 @@ public class MyAccount extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(),EditProfile.class);
                 intent.putExtra("Username",name.getText().toString());
-                intent.putExtra("Email",email.getText().toString());
                 startActivity(intent);
 
             }
@@ -133,48 +139,51 @@ public class MyAccount extends AppCompatActivity {
 
     }
 
-     private void choosePicture() {
+    private void choosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, 1);
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver cr = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cr.getType(uri));
-
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1000){
-            Uri imageUri = data.getData();
-            profileImage.setImageURI(imageUri);
-            uploadProfile(imageUri);
+        if (requestCode == 1 && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            Imageuri = data.getData();
+            profile.setImageURI(Imageuri);
         }
-
     }
-
-    private void uploadProfile(Uri imageUri) {
-
-
-        StorageReference file = storageReference;
-        file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                Toast.makeText(MyAccount.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MyAccount.this, "Failed to update", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(resultCode == 1000){
+//            if (resultCode == Activity.RESULT_OK){
+//                Uri imageUri = data.getData();
+//                profile.setImageURI(imageUri);
+//            }
+////            uploadProfile(imageUri);
+//        }
+//
+//    }
+//    private void uploadProfile(Uri imageUri) {
+//
+//
+//        StorageReference file = storageReference;
+//        file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//                Toast.makeText(MyAccount.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MyAccount.this, "Failed to update", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
