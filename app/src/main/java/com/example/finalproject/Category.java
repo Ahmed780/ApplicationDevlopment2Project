@@ -75,7 +75,6 @@ public class Category  extends AppCompatActivity {
         imageView = findViewById(R.id.selectBack);
         itemPic = findViewById(R.id.itemPic);
 
-
          String apiKey = getString(R.string.map_key);
             if (!Places.isInitialized()) {
                 Places.initialize(getApplicationContext(), apiKey);

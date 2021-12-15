@@ -45,8 +45,6 @@ public class MyAccount extends AppCompatActivity {
     Button verify, changeProfile,map,post;
     FirebaseAuth fAuth;
     FirebaseFirestore fstore;
-    ImageView profileImage;
-//    CircleImageView profile;
     private Uri Imageuri;
     StorageReference storageReference;
     private CircleImageView profile;
@@ -67,14 +65,11 @@ public class MyAccount extends AppCompatActivity {
         map = findViewById(R.id.map);
         uid = fAuth.getCurrentUser().getUid();
         post = findViewById(R.id.post_btn);
-        storageReference = FirebaseStorage.getInstance().getReference().child("profile picture");
-
+        storageReference = FirebaseStorage.getInstance().getReference().child("profile image");
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 choosePicture();
-//            Intent openGallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//            startActivityForResult(openGallery,1000);
             }
         });
 
@@ -153,37 +148,25 @@ public class MyAccount extends AppCompatActivity {
                 && data != null && data.getData() != null) {
             Imageuri = data.getData();
             profile.setImageURI(Imageuri);
+            UploadImage(Imageuri);
         }
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode == 1000){
-//            if (resultCode == Activity.RESULT_OK){
-//                Uri imageUri = data.getData();
-//                profile.setImageURI(imageUri);
-//            }
-////            uploadProfile(imageUri);
-//        }
-//
-//    }
-//    private void uploadProfile(Uri imageUri) {
-//
-//
-//        StorageReference file = storageReference;
-//        file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                Toast.makeText(MyAccount.this, "Profile picture updated", Toast.LENGTH_SHORT).show();
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(MyAccount.this, "Failed to update", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+
+    private void UploadImage(Uri imageuri) {
+
+//        StorageReference file = storageReference.child("profile");
+        storageReference.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(MyAccount.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MyAccount.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
