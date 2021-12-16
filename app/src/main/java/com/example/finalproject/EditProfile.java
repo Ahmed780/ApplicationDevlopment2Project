@@ -63,15 +63,10 @@ public class EditProfile extends AppCompatActivity {
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (profileName.getText().toString().isEmpty() || profileEmail.getText().toString().isEmpty()){
-
+                if (profileName.getText().toString().isEmpty()){
                     Toast.makeText(EditProfile.this, "One or many fields are empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String email = profileEmail.getText().toString();
-                user.updateEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
                         DocumentReference documentReference = firestore.collection("Users").document(user.getUid());
                         Map<String,Object> edit = new HashMap<>();
                         edit.put("Username",profileName.getText().toString());
@@ -82,19 +77,15 @@ public class EditProfile extends AppCompatActivity {
                                 startActivity(new Intent(getApplicationContext(),MyAccount.class));
                                 finish();
                             }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(EditProfile.this, "Profile not updated", Toast.LENGTH_SHORT).show();
+                            }
                         });
-
-                        Toast.makeText(EditProfile.this, "Profile updated", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
-            }
-        });
+        }
 
     }
-}
