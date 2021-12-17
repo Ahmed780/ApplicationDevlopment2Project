@@ -66,6 +66,7 @@ public class MyAccount extends AppCompatActivity {
         uid = fAuth.getCurrentUser().getUid();
         post = findViewById(R.id.post_btn);
         storageReference = FirebaseStorage.getInstance().getReference().child("profile image");
+
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

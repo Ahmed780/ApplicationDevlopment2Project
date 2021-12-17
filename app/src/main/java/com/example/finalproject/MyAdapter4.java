@@ -39,6 +39,7 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.ImageViewHolder>
         AdModel user = list.get(position);
         holder.textViewtitle.setText(user.getTitle());
         holder.textViewprice.setText(user.getPrice());
+        holder.location.setText(user.getLocation());
         holder.textViewdescription.setText(user.getDescription());
         Picasso.get().load(user.getImageUri()).into(holder.imageviews);
 
@@ -51,6 +52,7 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.ImageViewHolder>
                 intent.putExtra("price",user.getPrice());
                 intent.putExtra("description",user.getDescription());
                 intent.putExtra("imageUri",user.getImageUri());
+                intent.putExtra("Location",user.getLocation());
                 mContext.startActivity(intent);
             }
         });
@@ -64,7 +66,7 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.ImageViewHolder>
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-        public TextView textViewtitle, textViewprice, textViewdescription;
+        public TextView textViewtitle, textViewprice, textViewdescription,location;
         public ImageView imageviews;
 
         public ImageViewHolder(View itemView) {
@@ -74,6 +76,7 @@ public class MyAdapter4 extends RecyclerView.Adapter<MyAdapter4.ImageViewHolder>
             textViewprice = itemView.findViewById(R.id.price_text4);
             textViewdescription = itemView.findViewById(R.id.description_text4);
             imageviews = itemView.findViewById(R.id.imageUpload4);
+            location = itemView.findViewById(R.id.location4);
 
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);

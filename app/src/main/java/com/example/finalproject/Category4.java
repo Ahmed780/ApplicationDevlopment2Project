@@ -61,7 +61,7 @@ public class Category4 extends AppCompatActivity {
     private StorageTask task;
     private ImageView itemPic;
     PlacesClient placesClient;
-
+    String savePlace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,7 @@ public class Category4 extends AppCompatActivity {
                 @Override
                 public void onPlaceSelected(@NonNull Place place) {
                     Toast.makeText(getApplicationContext(), place.getName(), Toast.LENGTH_SHORT).show();
+                    savePlace = place.getName();
                 }
 
                 @Override
@@ -236,7 +237,7 @@ public class Category4 extends AppCompatActivity {
         });
     }
     private void postAd() {
-        AdModel adModel = new AdModel(Inputtitle.getText().toString(),Inputprice.getText().toString(), Inputdescription.getText().toString(),DownloadImageUri, productRandomKey);
+        AdModel adModel = new AdModel(Inputtitle.getText().toString(),Inputprice.getText().toString(), Inputdescription.getText().toString(),DownloadImageUri, productRandomKey,savePlace);
         String uploadId = databaseReference.push().getKey();
         databaseReference.child(uploadId).setValue(adModel).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

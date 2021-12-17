@@ -32,7 +32,7 @@ import com.squareup.picasso.Picasso;
 public class ContactSeller extends AppCompatActivity {
 
     ImageView imageView,adImage;
-    private TextView contactPrice,contactTitle,contactDescription;
+    private TextView contactPrice,contactTitle,contactDescription,contactLocation;
     Button email;
     String uid;
     public static String TAG = "TAG";
@@ -47,6 +47,7 @@ public class ContactSeller extends AppCompatActivity {
         contactTitle = findViewById(R.id.contactTitle2);
         contactPrice = findViewById(R.id.contactPrice2);
         contactDescription = findViewById(R.id.contactDescription2);
+        contactLocation = findViewById(R.id.contactLocation);
         fAuth = FirebaseAuth.getInstance();
         adImage  = findViewById(R.id.adImage);
         uid = fAuth.getCurrentUser().getUid();
@@ -57,15 +58,16 @@ public class ContactSeller extends AppCompatActivity {
         String title = data.getStringExtra("title");
         String price = data.getStringExtra("price");
         String description = data.getStringExtra("description");
+        String location = data.getStringExtra("Location");
         String imageUrl = data.getStringExtra("imageUri");
 
         contactTitle.setText(title);
         contactPrice.setText(price);
         contactDescription.setText(description);
+        contactLocation.setText(location);
         Picasso.get().load(imageUrl).into(adImage);
 
-        Log.d(TAG,"onCreate" + contactTitle  + " " + " " + contactPrice+ " " + contactDescription + " " + adImage + "");
-
+        Log.d(TAG,"onCreate" + contactTitle  + " " + " " + contactPrice+ " " + contactDescription + " " + adImage + "" + " " +contactLocation);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

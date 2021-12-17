@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
         holder.textViewtitle.setText(user.getTitle());
         holder.textViewprice.setText(user.getPrice());
         holder.textViewdescription.setText(user.getDescription());
+        holder.location.setText(user.getLocation());
         Picasso.get().load(user.getImageUri()).into(holder.imageviews);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
                 intent.putExtra("price",user.getPrice());
                 intent.putExtra("description",user.getDescription());
                 intent.putExtra("imageUri",user.getImageUri());
+                intent.putExtra("Location",user.getLocation());
                 mContext.startActivity(intent);
             }
         });
@@ -64,8 +67,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
     public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
 
-        public TextView textViewtitle, textViewprice, textViewdescription;
+        public TextView textViewtitle, textViewprice, textViewdescription,location;
         public ImageView imageviews;
+
 
         public ImageViewHolder(View itemView) {
             super(itemView);
@@ -74,6 +78,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
             textViewprice = itemView.findViewById(R.id.price_text);
             textViewdescription = itemView.findViewById(R.id.description_text);
             imageviews = itemView.findViewById(R.id.imageUpload);
+            location = itemView.findViewById(R.id.location);
 
             itemView.setOnClickListener(this);
             itemView.setOnCreateContextMenuListener(this);
