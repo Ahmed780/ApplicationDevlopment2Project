@@ -69,8 +69,7 @@
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:ems="10"
-        android:inputType="text" />
+        android:ems="10"/>
 
     <TextView
         android:id="@+id/textDescription"

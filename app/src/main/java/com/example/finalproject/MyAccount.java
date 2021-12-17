@@ -59,13 +59,22 @@ public class MyAccount extends AppCompatActivity {
         name = findViewById(R.id.accountName);
         email = findViewById(R.id.accountEmail);
         fAuth = FirebaseAuth.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
         fstore = FirebaseFirestore.getInstance();
         profile = findViewById(R.id.profile_image);
         changeProfile = findViewById(R.id.edit_btn);
         map = findViewById(R.id.map);
         uid = fAuth.getCurrentUser().getUid();
         post = findViewById(R.id.post_btn);
-        storageReference = FirebaseStorage.getInstance().getReference().child("profile image");
+//        storageReference = FirebaseStorage.getInstance().getReference().child("profile image");
+        StorageReference file = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
+
+        file.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+            Picasso.get().load(uri).into(profile);
+            }
+        });
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,18 +162,22 @@ public class MyAccount extends AppCompatActivity {
         }
     }
 
-    private void UploadImage(Uri imageuri) {
-
-//        StorageReference file = storageReference.child("profile");
-        storageReference.putFile(imageuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    private void UploadImage(Uri imageUri) {
+        final StorageReference file = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
+        file.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(MyAccount.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                file.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri).into(profile);
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MyAccount.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyAccount.this, "Failed to upload profile picture" + e.getMessage(),  Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -70,6 +71,8 @@ public class Category5 extends AppCompatActivity {
         submitbtn = findViewById(R.id.submit_btn5);
         Inputtitle = findViewById(R.id.contactTitle5);
         Inputprice = findViewById(R.id.contactPrice5);
+        Inputprice.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        Inputprice.setTransformationMethod(null);
         Inputdescription = findViewById(R.id.contactDescription5);
         progressBar = findViewById(R.id.progressBar5);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Products5");
